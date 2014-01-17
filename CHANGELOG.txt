@@ -1,0 +1,19 @@
+2.1.1
+- Updated plugin with 1.6.5 plugin system updates
+
+2.1
+- Dropped MyBB 1.4 support
+- Bug: Fixed two bugs related to visible threads
+- Dropped 'favorite.css' stylesheet
+- Added user deletion support
+- Optimization and general plugin updating
+
+2.0
+- Updated plugin to work with MyBB 1.6
+- Added support for thread prefix feature added in MyBB 1.6
+
+1.0.1
+- Bug: Fixed error that causes thread subscription link to stop working
+
+1.0
+- Initial release
