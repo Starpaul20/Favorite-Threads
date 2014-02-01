@@ -306,7 +306,14 @@ function favorites_run()
 		$page = intval($mybb->input['page']);
 		if($page > 0)
 		{
-			$start = ($page-1) *$perpage;
+			$start = ($page-1) * $perpage;
+			$pages = $threadcount / $perpage;
+			$pages = ceil($pages);
+			if($page > $pages || $page <= 0)
+			{
+				$start = 0;
+				$page = 1;
+			}
 		}
 		else
 		{
