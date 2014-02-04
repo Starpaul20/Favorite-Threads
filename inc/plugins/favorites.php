@@ -344,7 +344,7 @@ function favorites_run()
 		{
 			$forumpermissions = $fpermissions[$favorite['fid']];
 			// Only keep if we're allowed to view them
-			if($forumpermissions['canview'] == 0 || $forumpermissions['canviewthreads'] == 0)
+			if($forumpermissions['canview'] == 0 || $forumpermissions['canviewthreads'] == 0 || ($forumpermissions['canonlyviewownthreads'] != 0 && $favorite['uid'] != $mybb->user['uid']))
 			{
 				// Hmm, you don't have permission to view this thread - remove!
 				$del_favorites[] = $favorite['tid'];
@@ -641,7 +641,7 @@ function favorites_thread()
 		}
 
 		$forumpermissions = forum_permissions($thread['fid']);
-		if($forumpermissions['canview'] == 0 || $forumpermissions['canviewthreads'] == 0)
+		if($forumpermissions['canview'] == 0 || $forumpermissions['canviewthreads'] == 0 || ($forumpermissions['canonlyviewownthreads'] != 0 && $thread['uid'] != $mybb->user['uid']))
 		{
 			error_no_permission();
 		}
