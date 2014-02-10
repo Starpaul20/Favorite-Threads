@@ -331,7 +331,7 @@ function favorites_run()
 		$fpermissions = forum_permissions();
 
 		$query = $db->query("
-			SELECT f.*, t.*, t.username AS threadusername, u.username, p.displaystyle AS threadprefix
+			SELECT f.fid AS fav, f.tid, t.*, t.username AS threadusername, u.username, p.displaystyle AS threadprefix
 			FROM ".TABLE_PREFIX."favorites f
 			LEFT JOIN ".TABLE_PREFIX."threads t ON (f.tid=t.tid)
 			LEFT JOIN ".TABLE_PREFIX."users u ON (u.uid = t.uid)
@@ -347,7 +347,7 @@ function favorites_run()
 			if($forumpermissions['canview'] == 0 || $forumpermissions['canviewthreads'] == 0 || ($forumpermissions['canonlyviewownthreads'] != 0 && $favorite['uid'] != $mybb->user['uid']))
 			{
 				// Hmm, you don't have permission to view this thread - remove!
-				$del_favorites[] = $favorite['tid'];
+				$del_favorites[] = $favorite['fav'];
 			}
 
 			else if($favorite['tid'])
@@ -358,10 +358,11 @@ function favorites_run()
 
 		if(is_array($del_favorites))
 		{
-			$tids = implode(',', $del_favorites);
-			if($tids)
+			$fids = implode(',', $del_favorites);
+
+			if($fids)
 			{
-				$db->delete_query("favorites", "tid IN ({$tids}) AND uid='{$mybb->user['uid']}'");
+				$db->delete_query("favorites", "fid IN ({$fids}) AND uid='{$mybb->user['uid']}'");
 			}
 		}
 
