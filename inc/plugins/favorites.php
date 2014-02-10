@@ -496,16 +496,13 @@ function favorites_run()
 
 				if($thread['lastpost'] > $cutoff)
 				{
-					if($thread['lastpost'] > $cutoff)
+					if($thread['lastread'])
 					{
-						if($thread['lastread'])
-						{
-							$lastread = $thread['lastread'];
-						}
-						else
-						{
-							$lastread = 1;
-						}
+						$lastread = $thread['lastread'];
+					}
+					else
+					{
+						$lastread = 1;
 					}
 				}
 
