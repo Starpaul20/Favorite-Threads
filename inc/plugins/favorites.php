@@ -261,7 +261,7 @@ function favorites_run()
 		// Deleting these favorites?
 		if($mybb->input['do'] == "delete")
 		{
-			$db->delete_query("favorites", "tid IN ($tids) AND uid='{$mybb->user['uid']}'");
+			$db->delete_query("favorites", "tid IN ({$tids}) AND uid='{$mybb->user['uid']}'");
 		}
 		// Upgrade to subscription
 		else
@@ -278,8 +278,8 @@ function favorites_run()
 
 	if($mybb->input['action'] == "favorites")
 	{
-		add_breadcrumb($lang->nav_usercp);
-		add_breadcrumb($lang->nav_favorites);
+		add_breadcrumb($lang->nav_usercp, "usercp.php");
+		add_breadcrumb($lang->nav_favorites, "usercp.php?action=favorites");
 
 		// Thread visiblity
 		$visible = "AND t.visible != 0";
@@ -338,7 +338,7 @@ function favorites_run()
 			LEFT JOIN ".TABLE_PREFIX."threadprefixes p ON (p.pid=t.prefix)
 			WHERE f.uid='".$mybb->user['uid']."' {$visible}
 			ORDER BY t.lastpost DESC
-			LIMIT $start, $perpage
+			LIMIT {$start}, {$perpage}
 		");
 		while($favorite = $db->fetch_array($query))
 		{
