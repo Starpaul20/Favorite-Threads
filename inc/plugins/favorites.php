@@ -364,6 +364,13 @@ function favorites_run()
 			{
 				$db->delete_query("favorites", "fid IN ({$fids}) AND uid='{$mybb->user['uid']}'");
 			}
+
+			$threadcount = $threadcount - count($del_favorites);
+
+			if($threadcount < 0)
+			{
+				$threadcount = 0;
+			}
 		}
 
 		if(is_array($favorites))
