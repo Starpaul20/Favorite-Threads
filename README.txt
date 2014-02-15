@@ -1,6 +1,6 @@
 ## INFORMATION ##
 
-Favorite Threads (2.1.1) for MyBB 1.6
+Favorite Threads (2.2) for MyBB 1.6
 Created by: Starpaul20
 Copyright: ©2010
 License: GPL
@@ -20,4 +20,4 @@ This plugin offers full language support.
 
 ## UPDATING ##
 
-If you're updating from any previous version, you must first deactivate the plugin, upload all new files and reactivate.
+If you're updating from version 2.1 and above, you only need to overwrite old files with the new ones, no need to deactivate. If you're updating from any version older than 2.1, you must first deactivate the plugin (do not uninstall), upload all new files and reactivate.

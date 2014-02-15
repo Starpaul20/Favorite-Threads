@@ -40,7 +40,7 @@ function favorites_info()
 		"website"			=> "http://galaxiesrealm.com/index.php",
 		"author"			=> "Starpaul20",
 		"authorsite"		=> "http://galaxiesrealm.com/index.php",
-		"version"			=> "2.1.1",
+		"version"			=> "2.2",
 		"guid"				=> "ac4dd3165c975fe285aab037ffa64c1e",
 		"compatibility"		=> "16*"
 	);

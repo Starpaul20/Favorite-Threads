@@ -1,3 +1,11 @@
+2.2
+- Bug: Fixed bug with User CP page returning error with large page number (Issue #1)
+- Added support for "View own threads only" forum permission added in MyBB 1.6 (Issue #2)
+- Bug: Fixed old threads appear as unread (Issue #3)
+- Bug: Fixed SQL error when auto-deleting favorites (Issue #4)
+- Bug: Fixed Thread counter being wrong after auto-deletion (Issue #5)
+- Fixed wrong breadcrumb location
+
 2.1.1
 - Updated plugin with 1.6.5 plugin system updates
 
