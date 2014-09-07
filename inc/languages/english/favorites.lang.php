@@ -4,6 +4,9 @@
  * Copyright 2010 Starpaul20
  */
 
+$l['favorites_info_name'] = "Favorite Threads";
+$l['favorites_info_desc'] = "Allows your members to favorite threads to view in their User CP.";
+
 $l['favorites'] = "Favorites";
 $l['viewing_favorites'] = "Viewing <a href=\"usercp.php?action=favorites\">Favorite Threads</a>";
 

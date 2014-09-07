@@ -34,9 +34,12 @@ $plugins->add_hook("admin_user_users_delete_commit", "favorites_delete");
 // The information that shows up on the plugin manager
 function favorites_info()
 {
+	global $lang;
+	$lang->load("favorites", true);
+
 	return array(
-		"name"				=> "Favorite Threads",
-		"description"		=> "Allows your members to favorite threads to view in their User CP.",
+		"name"				=> $lang->favorites_info_name,
+		"description"		=> $lang->favorites_info_desc,
 		"website"			=> "http://galaxiesrealm.com/index.php",
 		"author"			=> "Starpaul20",
 		"authorsite"		=> "http://galaxiesrealm.com/index.php",
