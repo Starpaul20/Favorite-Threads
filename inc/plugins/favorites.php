@@ -315,7 +315,7 @@ function favorites_run()
 			SELECT COUNT(f.tid) as threads
 			FROM ".TABLE_PREFIX."favorites f
 			LEFT JOIN ".TABLE_PREFIX."threads t ON (t.tid = f.tid)
-			WHERE f.uid = '".$mybb->user['uid']."' {$visible}
+			WHERE f.uid = '".$mybb->user['uid']."' AND t.visible >= 0 {$visible}
 		");
 		$threadcount = $db->fetch_field($query, "threads");
 
@@ -358,7 +358,7 @@ function favorites_run()
 			LEFT JOIN ".TABLE_PREFIX."threads t ON (f.tid=t.tid)
 			LEFT JOIN ".TABLE_PREFIX."users u ON (u.uid = t.uid)
 			LEFT JOIN ".TABLE_PREFIX."threadprefixes p ON (p.pid=t.prefix)
-			WHERE f.uid='".$mybb->user['uid']."' {$visible}
+			WHERE f.uid='".$mybb->user['uid']."' AND t.visible >= 0 {$visible}
 			ORDER BY t.lastpost DESC
 			LIMIT {$start}, {$perpage}
 		");
