@@ -353,11 +353,10 @@ function favorites_run()
 		$fpermissions = forum_permissions();
 
 		$query = $db->query("
-			SELECT f.fid AS fav, f.tid, t.*, t.username AS threadusername, u.username, p.displaystyle AS threadprefix
+			SELECT f.fid AS fav, f.tid, t.*, t.username AS threadusername, u.username
 			FROM ".TABLE_PREFIX."favorites f
 			LEFT JOIN ".TABLE_PREFIX."threads t ON (f.tid=t.tid)
 			LEFT JOIN ".TABLE_PREFIX."users u ON (u.uid = t.uid)
-			LEFT JOIN ".TABLE_PREFIX."threadprefixes p ON (p.pid=t.prefix)
 			WHERE f.uid='".$mybb->user['uid']."' AND t.visible >= 0 {$visible}
 			ORDER BY t.lastpost DESC
 			LIMIT {$start}, {$perpage}
@@ -455,6 +454,7 @@ function favorites_run()
 			}
 
 			$icon_cache = $cache->read("posticons");
+			$threadprefixes = build_prefixes();
 
 			// Now we can build our favorite list
 			foreach($favorites as $thread)
@@ -465,9 +465,9 @@ function favorites_run()
 				$prefix = '';
 
 				// If this thread has a prefix, insert a space between prefix and subject
-				if($thread['prefix'] != 0)
+				if($thread['prefix'] != 0 && isset($threadprefixes[$thread['prefix']]))
 				{
-					$thread['threadprefix'] .= '&nbsp;';
+					$thread['threadprefix'] = $threadprefixes[$thread['prefix']]['displaystyle'].'&nbsp;';
 				}
 
 				// Sanitize
