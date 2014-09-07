@@ -319,13 +319,13 @@ function favorites_run()
 		");
 		$threadcount = $db->fetch_field($query, "threads");
 
-		if(!$mybb->settings['threadsperpage'])
+		if(!$mybb->settings['threadsperpage'] || (int)$mybb->settings['threadsperpage'] < 1)
 		{
 			$mybb->settings['threadsperpage'] = 20;
 		}
 
 		$perpage = $mybb->settings['threadsperpage'];
-		$page = intval($mybb->input['page']);
+		$page = $mybb->get_input('page', 1);
 		if($page > 0)
 		{
 			$start = ($page-1) * $perpage;
@@ -351,6 +351,7 @@ function favorites_run()
 		}
 		$multipage = multipage($threadcount, $perpage, $page, "usercp.php?action=favorites");
 		$fpermissions = forum_permissions();
+		$del_favorites = $favorites = array();
 
 		$query = $db->query("
 			SELECT f.fid AS fav, f.tid, t.*, t.username AS threadusername, u.username
@@ -365,7 +366,7 @@ function favorites_run()
 		{
 			$forumpermissions = $fpermissions[$favorite['fid']];
 			// Only keep if we're allowed to view them
-			if($forumpermissions['canview'] == 0 || $forumpermissions['canviewthreads'] == 0 || ($forumpermissions['canonlyviewownthreads'] != 0 && $favorite['uid'] != $mybb->user['uid']))
+			if($forumpermissions['canview'] == 0 || $forumpermissions['canviewthreads'] == 0 || (isset($forumpermissions['canonlyviewownthreads']) && $forumpermissions['canonlyviewownthreads'] != 0 && $favorite['uid'] != $mybb->user['uid']))
 			{
 				// Hmm, you don't have permission to view this thread - remove!
 				$del_favorites[] = $favorite['fav'];
@@ -377,7 +378,7 @@ function favorites_run()
 			}
 		}
 
-		if(is_array($del_favorites))
+		if(!empty($del_favorites))
 		{
 			$fids = implode(',', $del_favorites);
 
@@ -394,7 +395,7 @@ function favorites_run()
 			}
 		}
 
-		if(is_array($favorites))
+		if(!empty($favorites))
 		{
 			$tids = implode(",", array_keys($favorites));
 		
@@ -408,7 +409,7 @@ function favorites_run()
 					ORDER BY pid, disporder
 				");
 			
-				$forumsread = unserialize($mybb->cookies['mybb']['forumread']);
+				$forumsread = my_unserialize($mybb->cookies['mybb']['forumread']);
 			}
 			else
 			{
@@ -456,6 +457,8 @@ function favorites_run()
 			$icon_cache = $cache->read("posticons");
 			$threadprefixes = build_prefixes();
 
+			$threads = '';
+
 			// Now we can build our favorite list
 			foreach($favorites as $thread)
 			{
@@ -493,7 +496,7 @@ function favorites_run()
 				$folder = '';
 				$folder_label = '';
 
-				if($thread['doticon'])
+				if(isset($thread['doticon']))
 				{
 					$folder = "dot_";
 					$folder_label .= $lang->icon_dot;
@@ -519,6 +522,7 @@ function favorites_run()
 					$forum_read = $forumsread[$thread['fid']];
 				}
 
+				$cutoff = 0;
 				if($mybb->settings['threadreadcut'] > 0 && $thread['lastpost'] > $forum_read)
 				{
 					$cutoff = TIME_NOW-$mybb->settings['threadreadcut']*60*60*24;
@@ -610,6 +614,7 @@ function favorites_run()
 		}
 		else
 		{
+			$remove_options = '';
 			eval("\$threads = \"".$templates->get("usercp_favorites_none")."\";");
 		}
 
@@ -636,7 +641,7 @@ function favorites_thread()
 	if($mybb->user['uid'])
 	{
 		// Favorite status
-		$query = $db->simple_select("favorites", "tid", "tid='".intval($tid)."' AND uid='".intval($mybb->user['uid'])."'", array('limit' => 1));
+		$query = $db->simple_select("favorites", "tid", "tid='".(int)$tid."' AND uid='".(int)$mybb->user['uid']."'", array('limit' => 1));
 		if($db->fetch_field($query, 'tid'))
 		{
 			$add_remove_favorite = 'remove';
@@ -654,9 +659,9 @@ function favorites_thread()
 	if($mybb->input['action'] == "addfavorite")
 	{
 		// Verify incoming POST request
-		verify_post_check($mybb->input['my_post_key']);
+		verify_post_check($mybb->get_input('my_post_key'));
 
-		$tid = intval($mybb->input['tid']);
+		$tid = $mybb->get_input('tid', 1);
 		$thread = get_thread($tid);
 
 		if(!$thread['tid'])
@@ -678,13 +683,13 @@ function favorites_thread()
 		{
 			$uid = $mybb->user['uid'];
 		}
-		$query = $db->simple_select("favorites", "*", "tid='{$tid}' AND uid='".intval($uid)."'", array('limit' => 1));
+		$query = $db->simple_select("favorites", "*", "tid='{$tid}' AND uid='".(int)$uid."'", array('limit' => 1));
 		$favorite = $db->fetch_array($query);
 		if(!$favorite['tid'])
 		{
 			$insert_array = array(
-				'uid' => intval($uid),
-				'tid' => intval($tid),
+				'uid' => (int)$uid,
+				'tid' => (int)$tid,
 			);
 			$db->insert_query("favorites", $insert_array);
 		}
@@ -702,9 +707,9 @@ function favorites_thread()
 	if($mybb->input['action'] == "removefavorite")
 	{
 		// Verify incoming POST request
-		verify_post_check($mybb->input['my_post_key']);
+		verify_post_check($mybb->get_input('my_post_key'));
 
-		$tid = intval($mybb->input['tid']);
+		$tid = $mybb->get_input('tid', 1);
 		$thread = get_thread($tid);
 
 		if(!$thread['tid'])
