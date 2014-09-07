@@ -488,7 +488,8 @@ function favorites_run()
 				if($thread['icon'] > 0 && $icon_cache[$thread['icon']])
 				{
 					$icon = $icon_cache[$thread['icon']];
-					$icon = "<img src=\"{$icon['path']}\" alt=\"{$icon['name']}\" />";
+					$icon['path'] = str_replace("{theme}", $theme['imgdir'], $icon['path']);
+					eval("\$icon = \"".$templates->get("usercp_subscriptions_thread_icon")."\";");
 				}
 				else
 				{
