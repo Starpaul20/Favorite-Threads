@@ -184,7 +184,10 @@ function favorites_activate()
 <td class="{$bgcolor}">{$gotounread}{$thread[\'threadprefix\']}<a href="{$thread[\'threadlink\']}" class="{$new_class}">{$thread[\'subject\']}</a><br /><span class="smalltext"><a href="newreply.php?tid={$thread[\'tid\']}">{$lang->post_reply}</a> | <a href="showthread.php?action=removefavorite&amp;tid={$thread[\'tid\']}&amp;my_post_key={$mybb->post_code}">{$lang->delete_from_favorites}</a></span></td>
 <td align="center" class="{$bgcolor}"><a href="javascript:MyBB.whoPosted({$thread[\'tid\']});">{$thread[\'replies\']}</a></td>
 <td align="center" class="{$bgcolor}">{$thread[\'views\']}</td>
-<td class="{$bgcolor}" style="white-space: nowrap"><span class="smalltext">{$lastpostdate} {$lastposttime}<br /><a href="{$thread[\'lastpostlink\']}">{$lang->lastpost}</a>: {$lastposterlink}</span></td>
+<td class="{$bgcolor}" style="white-space: nowrap">
+<span class="smalltext">{$lastpostdate}<br />
+<a href="{$thread[\'lastpostlink\']}">{$lang->lastpost}</a>: {$lastposterlink}</span>
+</td>
 <td class="{$bgcolor}" align="center"><input type="checkbox" class="checkbox" name="check[{$thread[\'tid\']}]" value="{$thread[\'tid\']}" /></td>
 </tr>'),
 		'sid' => '-1',
@@ -588,8 +591,7 @@ function favorites_run()
 				}
 
 				// Build last post info
-				$lastpostdate = my_date($mybb->settings['dateformat'], $thread['lastpost']);
-				$lastposttime = my_date($mybb->settings['timeformat'], $thread['lastpost']);
+				$lastpostdate = my_date('relative', $thread['lastpost']);
 				$lastposter = $thread['lastposter'];
 				$lastposteruid = $thread['lastposteruid'];
 
