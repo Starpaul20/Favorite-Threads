@@ -1,3 +1,8 @@
+1.0 (September 7th, 2014)
+- Updated plugin to work with MyBB 1.8
+
+## Version number reset for MyBB 1.8 ##
+
 2.2
 - Bug: Fixed bug with User CP page returning error with large page number (Issue #1)
 - Added support for "View own threads only" forum permission added in MyBB 1.6 (Issue #2)

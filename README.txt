@@ -1,6 +1,6 @@
 ## INFORMATION ##
 
-Favorite Threads (2.2) for MyBB 1.6
+Favorite Threads (1.0) for MyBB 1.8
 Created by: Starpaul20
 Copyright: ©2010
 License: GPL
@@ -8,6 +8,8 @@ License: GPL
 Allows your users to favorite threads to view in their User CP. Based on the same feature in MyBB 1.2.
 
 This plugin offers full language support.
+
+The 'oldrelease' branch contains the 1.6 version of the plugin.
 
 
 ## INSTALLATION ##
@@ -20,4 +22,4 @@ This plugin offers full language support.
 
 ## UPDATING ##
 
-If you're updating from version 2.1 and above, you only need to overwrite old files with the new ones, no need to deactivate. If you're updating from any version older than 2.1, you must first deactivate the plugin (do not uninstall), upload all new files and reactivate.
+If you're updating from any previous version, you must first deactivate the plugin (do not uninstall), upload all new files and reactivate.
