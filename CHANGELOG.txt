@@ -3,7 +3,7 @@
 
 ## Version number reset for MyBB 1.8 ##
 
-2.2
+2.2 (February 15th, 2014)
 - Bug: Fixed bug with User CP page returning error with large page number (Issue #1)
 - Added support for "View own threads only" forum permission added in MyBB 1.6 (Issue #2)
 - Bug: Fixed old threads appear as unread (Issue #3)
@@ -11,22 +11,22 @@
 - Bug: Fixed Thread counter being wrong after auto-deletion (Issue #5)
 - Fixed wrong breadcrumb location
 
-2.1.1
+2.1.1 (November 28th, 2011)
 - Updated plugin with 1.6.5 plugin system updates
 
-2.1
+2.1 (October 11th, 2011)
 - Dropped MyBB 1.4 support
 - Bug: Fixed two bugs related to visible threads
 - Dropped 'favorite.css' stylesheet
 - Added user deletion support
 - Optimization and general plugin updating
 
-2.0
+2.0 (August 6th, 2010)
 - Updated plugin to work with MyBB 1.6
 - Added support for thread prefix feature added in MyBB 1.6
 
-1.0.1
+1.0.1 (June 6th, 2010)
 - Bug: Fixed error that causes thread subscription link to stop working
 
-1.0
+1.0 (February 9th, 2010)
 - Initial release
