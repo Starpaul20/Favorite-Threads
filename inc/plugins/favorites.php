@@ -66,9 +66,9 @@ function favorites_install()
 	$collation = $db->build_create_table_collation();
 
 	$db->write_query("CREATE TABLE ".TABLE_PREFIX."favorites (
-				fid int(10) NOT NULL auto_increment,
-				uid int(10) NOT NULL DEFAULT '0',
-				tid int(10) NOT NULL DEFAULT '0',
+				fid int(10) unsigned NOT NULL auto_increment,
+				uid int(10) unsigned NOT NULL default '0',
+				tid int(10) unsigned NOT NULL default '0',
 				KEY uid (uid),
 				PRIMARY KEY(fid)
 			) ENGINE=MyISAM{$collation}");
