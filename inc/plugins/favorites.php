@@ -21,6 +21,16 @@ if(my_strpos($_SERVER['PHP_SELF'], 'usercp.php'))
 	$templatelist .= 'usercp_favorites,usercp_favorites_none,usercp_favorites_thread,usercp_favorites_remove';
 }
 
+if(my_strpos($_SERVER['PHP_SELF'], 'showthread.php'))
+{
+	global $templatelist;
+	if(isset($templatelist))
+	{
+		$templatelist .= ',';
+	}
+	$templatelist .= 'showthread_favorite';
+}
+
 // Tell MyBB when to run the hooks
 $plugins->add_hook("usercp_start", "favorites_run");
 $plugins->add_hook("usercp_menu", "favorites_lang");
@@ -124,21 +134,22 @@ function favorites_activate()
 </table>
 <br />
 <div class="float_left">
-<div class="float_left">
-<dl class="thread_legend smalltext">
-<dd><img src="{$theme[\'imgdir\']}/newfolder.gif" alt="{$lang->new_posts_thread}" title="{$lang->new_posts_thread}" /> {$lang->new_posts_thread}</dd>
-<dd><img src="{$theme[\'imgdir\']}/newhotfolder.gif" alt="{$lang->new_hot_thread}" title="{$lang->new_hot_thread}" /> {$lang->new_hot_thread}</dd>
-<dd><img src="{$theme[\'imgdir\']}/hotfolder.gif" alt="{$lang->hot_thread}" title="{$lang->hot_thread}" /> {$lang->hot_thread}</dd>
-</dl>
-</div>
-<div class="float_left">
-<dl class="thread_legend smalltext">
-<dd><img src="{$theme[\'imgdir\']}/folder.gif" alt="{$lang->no_new_thread}" title="{$lang->no_new_thread}" /> {$lang->no_new_thread}</dd>
-<dd><img src="{$theme[\'imgdir\']}/dot_folder.gif" alt="{$lang->posts_by_you}" title="{$lang->posts_by_you}" /> {$lang->posts_by_you}</dd>
-<dd><img src="{$theme[\'imgdir\']}/lockfolder.gif" alt="{$lang->locked_thread}" title="{$lang->locked_thread}" /> {$lang->locked_thread}</dd>
-</dl>
-</div>
-<br style="clear: both" />
+	<div class="float_left">
+		<dl class="thread_legend smalltext">
+			<dd><span class="thread_status newfolder" title="{$lang->new_thread}">&nbsp;</span> {$lang->new_thread}</dd>
+			<dd><span class="thread_status newhotfolder" title="{$lang->new_hot_thread}">&nbsp;</span> {$lang->new_hot_thread}</dd>
+			<dd><span class="thread_status hotfolder" title="{$lang->hot_thread}">&nbsp;</span> {$lang->hot_thread}</dd>
+		</dl>
+	</div>
+
+	<div class="float_left">
+		<dl class="thread_legend smalltext">
+			<dd><span class="thread_status folder" title="{$lang->no_new_thread}">&nbsp;</span> {$lang->no_new_thread}</dd>
+			<dd><span class="thread_status dot_folder" title="{$lang->posts_by_you}">&nbsp;</span> {$lang->posts_by_you}</dd>
+			<dd><span class="thread_status lockfolder" title="{$lang->locked_thread}">&nbsp;</span> {$lang->locked_thread}</dd>
+		</dl>
+	</div>
+	<br class="clear" />
 </div>
 {$multipage}
 </td>
@@ -168,7 +179,7 @@ function favorites_activate()
 	$insert_array = array(
 		'title'		=> 'usercp_favorites_thread',
 		'template' => $db->escape_string('<tr>
-<td align="center" class="{$bgcolor}" width="2%"><img src="{$theme[\'imgdir\']}/{$folder}.gif" alt="{$folder_label}" title="{$folder_label}" /></td>
+<td align="center" class="{$bgcolor}" width="2%"><span class="thread_status {$folder}" title="{$folder_label}">&nbsp;</span></td>
 <td align="center" class="{$bgcolor}" width="2%">{$icon}</td>
 <td class="{$bgcolor}">{$gotounread}{$thread[\'threadprefix\']}<a href="{$thread[\'threadlink\']}" class="{$new_class}">{$thread[\'subject\']}</a><br /><span class="smalltext"><a href="newreply.php?tid={$thread[\'tid\']}">{$lang->post_reply}</a> | <a href="showthread.php?action=removefavorite&amp;tid={$thread[\'tid\']}&amp;my_post_key={$mybb->post_code}">{$lang->delete_from_favorites}</a></span></td>
 <td align="center" class="{$bgcolor}"><a href="javascript:MyBB.whoPosted({$thread[\'tid\']});">{$thread[\'replies\']}</a></td>
@@ -204,20 +215,29 @@ function favorites_activate()
 	);
 	$db->insert_query("templates", $insert_array);
 
+	$insert_array = array(
+		'title'		=> 'showthread_favorite',
+		'template'	=> $db->escape_string('<li style="background: url(\'images/favorites_{$add_remove_favorite}.png\') no-repeat 0px 0px;"><a href="showthread.php?action={$add_remove_favorite}favorite&amp;tid={$tid}&amp;my_post_key={$mybb->post_code}">{$add_remove_favorite_text}</a></li>'),
+		'sid'		=> '-1',
+		'version'	=> '',
+		'dateline'	=> TIME_NOW
+	);
+	$db->insert_query("templates", $insert_array);
+
 	include MYBB_ROOT."/inc/adminfunctions_templates.php";
-	find_replace_templatesets("showthread", "#".preg_quote('{$add_remove_subscription_text}</a></li>')."#i", '{$add_remove_subscription_text}</a></li><li style="background: url(\'images/favorites_{$add_remove_favorite}.gif\') no-repeat 0px 0px;"><a href="showthread.php?action={$add_remove_favorite}favorite&amp;tid={$tid}&amp;my_post_key={$mybb->post_code}">{$add_remove_favorite_text}</a></li>');
-	find_replace_templatesets("usercp_nav_misc", "#".preg_quote('{$draftend}</td></tr>')."#i", '{$draftend}</td></tr><tr><td class="trow1 smalltext"><a href="usercp.php?action=favorites" class="usercp_nav_item" style="background:url(\'images/usercp/favorites.gif\') no-repeat left center;">{$lang->ucp_nav_favorite_threads}</a></td></tr>');
+	find_replace_templatesets("showthread", "#".preg_quote('{$add_remove_subscription_text}</a></li>')."#i", '{$add_remove_subscription_text}</a></li>{$addremovefavorite}');
+	find_replace_templatesets("usercp_nav_misc", "#".preg_quote('{$draftcount}</a></td></tr>')."#i", '{$draftcount}</a></td></tr><tr><td class="trow1 smalltext"><a href="usercp.php?action=favorites" class="usercp_nav_item" style="background:url(\'images/favorites.png\') no-repeat left center;">{$lang->ucp_nav_favorite_threads}</a></td></tr>');
 }
 
 // This function runs when the plugin is deactivated.
 function favorites_deactivate()
 {
 	global $db;
-	$db->delete_query("templates", "title IN('usercp_favorites','usercp_favorites_none','usercp_favorites_thread','usercp_favorites_remove')");
+	$db->delete_query("templates", "title IN('usercp_favorites','usercp_favorites_none','usercp_favorites_thread','usercp_favorites_remove','showthread_favorite')");
 
 	include MYBB_ROOT."/inc/adminfunctions_templates.php";
-	find_replace_templatesets("showthread", "#".preg_quote('<li style="background: url(\'images/favorites_{$add_remove_favorite}.gif\') no-repeat 0px 0px;"><a href="showthread.php?action={$add_remove_favorite}favorite&amp;tid={$tid}&amp;my_post_key={$mybb->post_code}">{$add_remove_favorite_text}</a></li>')."#i", '', 0);
-	find_replace_templatesets("usercp_nav_misc", "#".preg_quote('<tr><td class="trow1 smalltext"><a href="usercp.php?action=favorites" class="usercp_nav_item" style="background:url(\'images/usercp/favorites.gif\') no-repeat left center;">{$lang->ucp_nav_favorite_threads}</a></td></tr>')."#i", '', 0);
+	find_replace_templatesets("showthread", "#".preg_quote('{$addremovefavorite}')."#i", '', 0);
+	find_replace_templatesets("usercp_nav_misc", "#".preg_quote('<tr><td class="trow1 smalltext"><a href="usercp.php?action=favorites" class="usercp_nav_item" style="background:url(\'images/favorites.png\') no-repeat left center;">{$lang->ucp_nav_favorite_threads}</a></td></tr>')."#i", '', 0);
 }
 
 // The main User CP favorites page
@@ -608,7 +628,7 @@ function favorites_lang()
 // Show Thread add/remove favorite links
 function favorites_thread()
 {
-	global $db, $mybb, $templates, $theme, $lang, $favorites, $add_remove_favorite_text, $add_remove_favorite, $uid, $tid;
+	global $db, $mybb, $templates, $theme, $lang, $favorites, $add_remove_favorite_text, $add_remove_favorite, $uid, $tid, $addremovefavorite;
 	$lang->load("favorites");
 
 	$server_http_referer = htmlentities($_SERVER['HTTP_REFERER']);
@@ -627,6 +647,8 @@ function favorites_thread()
 			$add_remove_favorite = 'add';
 			$add_remove_favorite_text = $lang->add_favorite;
 		}
+
+		eval("\$addremovefavorite = \"".$templates->get("showthread_favorite")."\";");
 	}
 
 	if($mybb->input['action'] == "addfavorite")
