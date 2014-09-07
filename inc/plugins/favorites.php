@@ -102,7 +102,7 @@ function favorites_activate()
 	
 	$insert_array = array(
 		'title'		=> 'usercp_favorites',
-		'template' => $db->escape_string('<html>
+		'template'	=> $db->escape_string('<html>
 <head>
 <title>{$mybb->settings[\'bbname\']} - {$lang->favorites}</title>
 {$headerinclude}
@@ -159,26 +159,26 @@ function favorites_activate()
 {$footer}
 </body>
 </html>'),
-		'sid' => '-1',
-		'version' => '',
-		'dateline' => TIME_NOW
+		'sid'		=> '-1',
+		'version'	=> '',
+		'dateline'	=> TIME_NOW
 	);
 	$db->insert_query("templates", $insert_array);
 
 	$insert_array = array(
 		'title'		=> 'usercp_favorites_none',
-		'template' => $db->escape_string('<tr>
+		'template'	=> $db->escape_string('<tr>
 <td class="trow1" colspan="7">{$lang->no_favorite_threads}</td>
 </tr>'),
-		'sid' => '-1',
-		'version' => '',
-		'dateline' => TIME_NOW
+		'sid'		=> '-1',
+		'version'	=> '',
+		'dateline'	=> TIME_NOW
 	);
 	$db->insert_query("templates", $insert_array);
 
 	$insert_array = array(
 		'title'		=> 'usercp_favorites_thread',
-		'template' => $db->escape_string('<tr>
+		'template'	=> $db->escape_string('<tr>
 <td align="center" class="{$bgcolor}" width="2%"><span class="thread_status {$folder}" title="{$folder_label}">&nbsp;</span></td>
 <td align="center" class="{$bgcolor}" width="2%">{$icon}</td>
 <td class="{$bgcolor}">{$gotounread}{$thread[\'threadprefix\']}<a href="{$thread[\'threadlink\']}" class="{$new_class}">{$thread[\'subject\']}</a><br /><span class="smalltext"><a href="newreply.php?tid={$thread[\'tid\']}">{$lang->post_reply}</a> | <a href="showthread.php?action=removefavorite&amp;tid={$thread[\'tid\']}&amp;my_post_key={$mybb->post_code}">{$lang->delete_from_favorites}</a></span></td>
@@ -190,15 +190,15 @@ function favorites_activate()
 </td>
 <td class="{$bgcolor}" align="center"><input type="checkbox" class="checkbox" name="check[{$thread[\'tid\']}]" value="{$thread[\'tid\']}" /></td>
 </tr>'),
-		'sid' => '-1',
-		'version' => '',
-		'dateline' => TIME_NOW
+		'sid'		=> '-1',
+		'version'	=> '',
+		'dateline'	=> TIME_NOW
 	);
 	$db->insert_query("templates", $insert_array);
 
 	$insert_array = array(
 		'title'		=> 'usercp_favorites_remove',
-		'template' => $db->escape_string('<tr>
+		'template'	=> $db->escape_string('<tr>
 <td class="tfoot" colspan="7">
 <div class="float_right"><strong>{$lang->with_selected}</strong>
 <select name="do">
@@ -212,9 +212,9 @@ function favorites_activate()
 </div>
 </td>
 </tr>'),
-		'sid' => '-1',
-		'version' => '',
-		'dateline' => TIME_NOW
+		'sid'		=> '-1',
+		'version'	=> '',
+		'dateline'	=> TIME_NOW
 	);
 	$db->insert_query("templates", $insert_array);
 
@@ -756,7 +756,7 @@ function favorites_online_activity($user_activity)
 
 function favorites_online_location($plugin_array)
 {
-    global $db, $mybb, $lang, $parameters;
+	global $db, $mybb, $lang, $parameters;
 	$lang->load("favorites");
 
 	if($plugin_array['user_activity']['activity'] == "usercp_favorites")
@@ -770,7 +770,7 @@ function favorites_online_location($plugin_array)
 // Merge favorites if users are merged
 function favorites_merge()
 {
-    global $db, $mybb, $source_user, $destination_user;
+	global $db, $mybb, $source_user, $destination_user;
 	$uid = array(
 		"uid" => $destination_user['uid']
 	);	
