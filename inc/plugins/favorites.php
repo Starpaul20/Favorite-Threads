@@ -37,9 +37,9 @@ $plugins->add_hook("usercp_menu", "favorites_lang");
 $plugins->add_hook("showthread_start", "favorites_thread");
 $plugins->add_hook("fetch_wol_activity_end", "favorites_online_activity");
 $plugins->add_hook("build_friendly_wol_location_end", "favorites_online_location");
+$plugins->add_hook("datahandler_user_delete_content", "favorites_delete");
 
 $plugins->add_hook("admin_user_users_merge_commit", "favorites_merge");
-$plugins->add_hook("admin_user_users_delete_commit", "favorites_delete");
 
 // The information that shows up on the plugin manager
 function favorites_info()
@@ -767,6 +767,16 @@ function favorites_online_location($plugin_array)
 	return $plugin_array;
 }
 
+// Delete favorites if user is deleted
+function favorites_delete($delete)
+{
+	global $db;
+
+	$db->delete_query('favorites', 'uid IN('.$delete->delete_uids.')');
+
+	return $delete;
+}
+
 // Merge favorites if users are merged
 function favorites_merge()
 {
@@ -775,13 +785,6 @@ function favorites_merge()
 		"uid" => $destination_user['uid']
 	);	
 	$db->update_query("favorites", $uid, "uid='{$source_user['uid']}'");
-}
-
-// Delete favorites if user is deleted
-function favorites_delete()
-{
-	global $db, $mybb, $user;
-	$db->delete_query("favorites", "uid='{$user['uid']}'");
 }
 
 ?>
