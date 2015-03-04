@@ -426,13 +426,8 @@ function favorites_run()
 			if($mybb->user['uid'] == 0)
 			{
 				// Build a forum cache.
-				$query = $db->query("
-					SELECT fid
-					FROM ".TABLE_PREFIX."forums
-					WHERE active != 0
-					ORDER BY pid, disporder
-				");
-			
+				$query = $db->simple_select('forums', 'fid', 'active != 0', array('order_by' => 'pid, disporder'));
+
 				$forumsread = my_unserialize($mybb->cookies['mybb']['forumread']);
 			}
 			else
