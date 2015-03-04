@@ -349,7 +349,7 @@ function favorites_run()
 		}
 
 		$perpage = $mybb->settings['threadsperpage'];
-		$page = $mybb->get_input('page', 1);
+		$page = $mybb->get_input('page', MyBB::INPUT_INT);
 		if($page > 0)
 		{
 			$start = ($page-1) * $perpage;
@@ -685,7 +685,7 @@ function favorites_thread()
 		// Verify incoming POST request
 		verify_post_check($mybb->get_input('my_post_key'));
 
-		$tid = $mybb->get_input('tid', 1);
+		$tid = $mybb->get_input('tid', MyBB::INPUT_INT);
 		$thread = get_thread($tid);
 
 		if(!$thread['tid'])
@@ -733,7 +733,7 @@ function favorites_thread()
 		// Verify incoming POST request
 		verify_post_check($mybb->get_input('my_post_key'));
 
-		$tid = $mybb->get_input('tid', 1);
+		$tid = $mybb->get_input('tid', MyBB::INPUT_INT);
 		$thread = get_thread($tid);
 
 		if(!$thread['tid'])
