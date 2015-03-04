@@ -1,3 +1,8 @@
+1.1 (March 4th, 2015)
+- Added PostgreSQL and SQLite support
+- Changed $mybb->input to $mybb->get_input
+- Sanitized post icons
+
 1.0 (September 7th, 2014)
 - Updated plugin to work with MyBB 1.8
 
