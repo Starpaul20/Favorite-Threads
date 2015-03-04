@@ -66,13 +66,33 @@ function favorites_install()
 	favorites_uninstall();
 	$collation = $db->build_create_table_collation();
 
-	$db->write_query("CREATE TABLE ".TABLE_PREFIX."favorites (
-				fid int(10) unsigned NOT NULL auto_increment,
-				uid int(10) unsigned NOT NULL default '0',
-				tid int(10) unsigned NOT NULL default '0',
+	switch($db->type)
+	{
+		case "pgsql":
+			$db->write_query("CREATE TABLE ".TABLE_PREFIX."favorites (
+				fid serial,
+				uid int NOT NULL default '0',
+				tid int NOT NULL default '0',
+				PRIMARY KEY (fid)
+			);");
+			break;
+		case "sqlite":
+			$db->write_query("CREATE TABLE ".TABLE_PREFIX."favorites (
+				fid INTEGER PRIMARY KEY,
+				uid int NOT NULL default '0',
+				tid int NOT NULL default '0'
+			);");
+			break;
+		default:
+			$db->write_query("CREATE TABLE ".TABLE_PREFIX."favorites (
+				fid int unsigned NOT NULL auto_increment,
+				uid int unsigned NOT NULL default '0',
+				tid int unsigned NOT NULL default '0',
 				KEY uid (uid),
-				PRIMARY KEY(fid)
-			) ENGINE=MyISAM{$collation}");
+				PRIMARY KEY (fid)
+			) ENGINE=MyISAM{$collation};");
+			break;
+	}
 }
 
 // Checks to make sure plugin is installed
