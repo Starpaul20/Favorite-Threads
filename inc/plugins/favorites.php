@@ -275,7 +275,7 @@ function favorites_run()
 	if($mybb->input['action'] == "removefavorites")
 	{
 		// Verify incoming POST request
-		verify_post_check($mybb->input['my_post_key']);
+		verify_post_check($mybb->get_input('my_post_key'));
 		{
 			$db->delete_query("favorites", "uid='".$mybb->user['uid']."'");
 			if($server_http_referer)
@@ -293,26 +293,26 @@ function favorites_run()
 	if($mybb->input['action'] == "do_favorites")
 	{
 		// Verify incoming POST request
-		verify_post_check($mybb->input['my_post_key']);
+		verify_post_check($mybb->get_input('my_post_key'));
 
-		if(!is_array($mybb->input['check']))
+		if(!isset($mybb->input['check']) || !is_array($mybb->input['check']))
 		{
 			error($lang->no_favorites_selected);
 		}
 
 		// Clean input - only accept integers thanks!
-		$mybb->input['check'] = array_map('intval', $mybb->input['check']);
+		$mybb->input['check'] = array_map('intval', $mybb->get_input('check', MyBB::INPUT_ARRAY));
 		$tids = implode(",", $mybb->input['check']);
 
 		// Deleting these favorites?
-		if($mybb->input['do'] == "delete")
+		if($mybb->get_input('do') == "delete")
 		{
 			$db->delete_query("favorites", "tid IN ({$tids}) AND uid='{$mybb->user['uid']}'");
 		}
 		// Upgrade to subscription
 		else
 		{
-			if($mybb->input['do'] == "upgrade_subscription")
+			if($mybb->get_input('do') == "upgrade_subscription")
 			{
 				add_subscribed_thread($tids);
 			}
