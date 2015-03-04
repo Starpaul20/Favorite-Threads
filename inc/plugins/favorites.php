@@ -422,7 +422,7 @@ function favorites_run()
 		if(!empty($favorites))
 		{
 			$tids = implode(",", array_keys($favorites));
-		
+
 			if($mybb->user['uid'] == 0)
 			{
 				// Build a forum cache.
@@ -505,6 +505,8 @@ function favorites_run()
 				{
 					$icon = $icon_cache[$thread['icon']];
 					$icon['path'] = str_replace("{theme}", $theme['imgdir'], $icon['path']);
+					$icon['path'] = htmlspecialchars_uni($icon['path']);
+					$icon['name'] = htmlspecialchars_uni($icon['name']);
 					eval("\$icon = \"".$templates->get("usercp_subscriptions_thread_icon")."\";");
 				}
 				else
@@ -530,7 +532,7 @@ function favorites_run()
 				if($mybb->settings['threadreadcut'] > 0 && $mybb->user['uid'])
 				{
 					$forum_read = $readforums[$thread['fid']];
-			
+
 					$read_cutoff = TIME_NOW-$mybb->settings['threadreadcut']*60*60*24;
 					if($forum_read == 0 || $forum_read < $read_cutoff)
 					{
