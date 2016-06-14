@@ -378,10 +378,9 @@ function favorites_run()
 		$del_favorites = $favorites = array();
 
 		$query = $db->query("
-			SELECT f.fid AS fav, f.tid, t.*, t.username AS threadusername, u.username
+			SELECT f.fid AS fav, t.*
 			FROM ".TABLE_PREFIX."favorites f
 			LEFT JOIN ".TABLE_PREFIX."threads t ON (f.tid=t.tid)
-			LEFT JOIN ".TABLE_PREFIX."users u ON (u.uid = t.uid)
 			WHERE f.uid='".$mybb->user['uid']."' AND t.visible >= 0 {$visible}
 			ORDER BY t.lastpost DESC
 			LIMIT {$start}, {$perpage}
