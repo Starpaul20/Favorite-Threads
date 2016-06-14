@@ -611,7 +611,7 @@ function favorites_run()
 
 				// Build last post info
 				$lastpostdate = my_date('relative', $thread['lastpost']);
-				$lastposter = $thread['lastposter'];
+				$lastposter = htmlspecialchars_uni($thread['lastposter']);
 				$lastposteruid = $thread['lastposteruid'];
 
 				// Don't link to guest's profiles (they have no profile).
