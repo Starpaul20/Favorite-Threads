@@ -422,33 +422,16 @@ function favorites_run()
 		{
 			$tids = implode(",", array_keys($favorites));
 
-			if($mybb->user['uid'] == 0)
-			{
-				// Build a forum cache.
-				$query = $db->simple_select('forums', 'fid', 'active != 0', array('order_by' => 'pid, disporder'));
-
-				$forumsread = my_unserialize($mybb->cookies['mybb']['forumread']);
-			}
-			else
-			{
-				// Build a forum cache.
-				$query = $db->query("
-					SELECT f.fid, fr.dateline AS lastread
-					FROM ".TABLE_PREFIX."forums f
-					LEFT JOIN ".TABLE_PREFIX."forumsread fr ON (fr.fid=f.fid AND fr.uid='{$mybb->user['uid']}')
-					WHERE f.active != 0
-					ORDER BY pid, disporder
-				");
-			}
+			// Build a forum cache.
+			$query = $db->query("
+				SELECT f.fid, fr.dateline AS lastread
+				FROM ".TABLE_PREFIX."forums f
+				LEFT JOIN ".TABLE_PREFIX."forumsread fr ON (fr.fid=f.fid AND fr.uid='{$mybb->user['uid']}')
+				WHERE f.active != 0
+				ORDER BY pid, disporder
+			");
 			while($forum = $db->fetch_array($query))
 			{
-				if($mybb->user['uid'] == 0)
-				{
-					if($forumsread[$forum['fid']])
-					{
-						$forum['lastread'] = $forumsread[$forum['fid']];
-					}
-				}
 				$readforums[$forum['fid']] = $forum['lastread'];
 			}
 
@@ -528,7 +511,7 @@ function favorites_run()
 				$donenew = 0;
 				$lastread = 0;
 
-				if($mybb->settings['threadreadcut'] > 0 && $mybb->user['uid'])
+				if($mybb->settings['threadreadcut'] > 0)
 				{
 					$forum_read = $readforums[$thread['fid']];
 
@@ -537,10 +520,6 @@ function favorites_run()
 					{
 						$forum_read = $read_cutoff;
 					}
-				}
-				else
-				{
-					$forum_read = $forumsread[$thread['fid']];
 				}
 
 				$cutoff = 0;
