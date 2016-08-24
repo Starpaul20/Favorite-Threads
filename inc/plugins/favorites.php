@@ -421,6 +421,7 @@ function favorites_run()
 		if(!empty($favorites))
 		{
 			$tids = implode(",", array_keys($favorites));
+			$readforums = array();
 
 			// Build a forum cache.
 			$query = $db->query("
@@ -430,6 +431,7 @@ function favorites_run()
 				WHERE f.active != 0
 				ORDER BY pid, disporder
 			");
+
 			while($forum = $db->fetch_array($query))
 			{
 				$readforums[$forum['fid']] = $forum['lastread'];
