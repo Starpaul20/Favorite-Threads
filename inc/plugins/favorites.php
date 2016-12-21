@@ -249,7 +249,7 @@ function favorites_activate()
 	$db->insert_query("templates", $insert_array);
 
 	include MYBB_ROOT."/inc/adminfunctions_templates.php";
-	find_replace_templatesets("showthread", "#".preg_quote('{$add_remove_subscription_text}</a></li>')."#i", '{$add_remove_subscription_text}</a></li>{$addremovefavorite}');
+	find_replace_templatesets("showthread", "#".preg_quote('{$addpoll}')."#i", '{$addremovefavorite}{$addpoll}');
 	find_replace_templatesets("usercp_nav_misc", "#".preg_quote('{$draftcount}</a></td></tr>')."#i", '{$draftcount}</a></td></tr><tr><td class="trow1 smalltext"><a href="usercp.php?action=favorites" class="usercp_nav_item" style="background:url(\'images/favorites.png\') no-repeat left center;">{$lang->ucp_nav_favorite_threads}</a></td></tr>');
 }
 
