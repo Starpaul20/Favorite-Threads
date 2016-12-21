@@ -203,7 +203,7 @@ function favorites_activate()
 <td align="center" class="{$bgcolor}" width="2%"><span class="thread_status {$folder}" title="{$folder_label}">&nbsp;</span></td>
 <td align="center" class="{$bgcolor}" width="2%">{$icon}</td>
 <td class="{$bgcolor}">{$gotounread}{$thread[\'threadprefix\']}<a href="{$thread[\'threadlink\']}" class="{$new_class}">{$thread[\'subject\']}</a><br /><span class="smalltext"><a href="newreply.php?tid={$thread[\'tid\']}">{$lang->post_reply}</a> | <a href="showthread.php?action=removefavorite&amp;tid={$thread[\'tid\']}&amp;my_post_key={$mybb->post_code}">{$lang->delete_from_favorites}</a></span></td>
-<td align="center" class="{$bgcolor}"><a href="javascript:MyBB.whoPosted({$thread[\'tid\']});">{$thread[\'replies\']}</a></td>
+<td align="center" class="{$bgcolor}"><a href="javascript:void(0)" onclick="javascript:MyBB.whoPosted({$thread[\'tid\']}); return false;">{$thread[\'replies\']}</a></td>
 <td align="center" class="{$bgcolor}">{$thread[\'views\']}</td>
 <td class="{$bgcolor}" style="white-space: nowrap">
 <span class="smalltext">{$lastpostdate}<br />
