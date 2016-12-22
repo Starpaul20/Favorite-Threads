@@ -1,6 +1,6 @@
 ## INFORMATION ##
 
-Favorite Threads (1.1) for MyBB 1.8
+Favorite Threads (1.2) for MyBB 1.8
 Created by: Starpaul20
 Copyright: ©2010
 License: GPL
