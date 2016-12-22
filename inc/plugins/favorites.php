@@ -139,19 +139,19 @@ function favorites_activate()
 <td valign="top">
 {$multipage}
 <table border="0" cellspacing="{$theme[\'borderwidth\']}" cellpadding="{$theme[\'tablespace\']}" class="tborder">
-<tr>
-<td class="thead" colspan="7"><strong>{$lang->favorites} ({$threadcount})</strong></td>
-</tr>
-<tr>
-<td class="tcat" align="center" colspan="2">&nbsp;</td>
-<td class="tcat" align="center"><span class="smalltext"><strong>{$lang->thread}</strong></span></td>
-<td class="tcat" align="center" width="7%"><span class="smalltext"><strong>{$lang->replies}</strong></span></td>
-<td class="tcat" align="center" width="7%"><span class="smalltext"><strong>{$lang->views}</strong></span></td>
-<td class="tcat" align="center" width="200"><span class="smalltext"><strong>{$lang->lastpost}</strong></span></td>
-<td class="tcat" align="center" width="1"><input name="allbox" title="Select All" type="checkbox" class="checkbox checkall" value="1" /></td>
-</tr>
-{$threads}
-{$remove_options}
+	<tr>
+		<td class="thead" colspan="7"><strong>{$lang->favorites} ({$threadcount})</strong></td>
+	</tr>
+	<tr>
+		<td class="tcat" align="center" colspan="2">&nbsp;</td>
+		<td class="tcat" align="center"><span class="smalltext"><strong>{$lang->thread}</strong></span></td>
+		<td class="tcat" align="center" width="7%"><span class="smalltext"><strong>{$lang->replies}</strong></span></td>
+		<td class="tcat" align="center" width="7%"><span class="smalltext"><strong>{$lang->views}</strong></span></td>
+		<td class="tcat" align="center" width="200"><span class="smalltext"><strong>{$lang->lastpost}</strong></span></td>
+		<td class="tcat" align="center" width="1"><input name="allbox" title="Select All" type="checkbox" class="checkbox checkall" value="1" /></td>
+	</tr>
+	{$threads}
+	{$remove_options}
 </table>
 <br />
 <div class="float_left">
@@ -189,7 +189,7 @@ function favorites_activate()
 	$insert_array = array(
 		'title'		=> 'usercp_favorites_none',
 		'template'	=> $db->escape_string('<tr>
-<td class="trow1" colspan="7">{$lang->no_favorite_threads}</td>
+	<td class="trow1" colspan="7">{$lang->no_favorite_threads}</td>
 </tr>'),
 		'sid'		=> '-1',
 		'version'	=> '',
@@ -200,16 +200,16 @@ function favorites_activate()
 	$insert_array = array(
 		'title'		=> 'usercp_favorites_thread',
 		'template'	=> $db->escape_string('<tr>
-<td align="center" class="{$bgcolor}" width="2%"><span class="thread_status {$folder}" title="{$folder_label}">&nbsp;</span></td>
-<td align="center" class="{$bgcolor}" width="2%">{$icon}</td>
-<td class="{$bgcolor}">{$gotounread}{$thread[\'threadprefix\']}<a href="{$thread[\'threadlink\']}" class="{$new_class}">{$thread[\'subject\']}</a><br /><span class="smalltext"><a href="newreply.php?tid={$thread[\'tid\']}">{$lang->post_reply}</a> | <a href="showthread.php?action=removefavorite&amp;tid={$thread[\'tid\']}&amp;my_post_key={$mybb->post_code}">{$lang->delete_from_favorites}</a></span></td>
-<td align="center" class="{$bgcolor}"><a href="javascript:void(0)" onclick="javascript:MyBB.whoPosted({$thread[\'tid\']}); return false;">{$thread[\'replies\']}</a></td>
-<td align="center" class="{$bgcolor}">{$thread[\'views\']}</td>
-<td class="{$bgcolor}" style="white-space: nowrap">
-<span class="smalltext">{$lastpostdate}<br />
-<a href="{$thread[\'lastpostlink\']}">{$lang->lastpost}</a>: {$lastposterlink}</span>
-</td>
-<td class="{$bgcolor}" align="center"><input type="checkbox" class="checkbox" name="check[{$thread[\'tid\']}]" value="{$thread[\'tid\']}" /></td>
+	<td align="center" class="{$bgcolor}" width="2%"><span class="thread_status {$folder}" title="{$folder_label}">&nbsp;</span></td>
+	<td align="center" class="{$bgcolor}" width="2%">{$icon}</td>
+	<td class="{$bgcolor}">{$gotounread}{$thread[\'threadprefix\']}<a href="{$thread[\'threadlink\']}" class="{$new_class}">{$thread[\'subject\']}</a><br /><span class="smalltext"><a href="newreply.php?tid={$thread[\'tid\']}">{$lang->post_reply}</a> | <a href="showthread.php?action=removefavorite&amp;tid={$thread[\'tid\']}&amp;my_post_key={$mybb->post_code}">{$lang->delete_from_favorites}</a></span></td>
+	<td align="center" class="{$bgcolor}"><a href="javascript:void(0)" onclick="javascript:MyBB.whoPosted({$thread[\'tid\']}); return false;">{$thread[\'replies\']}</a></td>
+	<td align="center" class="{$bgcolor}">{$thread[\'views\']}</td>
+	<td class="{$bgcolor}" style="white-space: nowrap">
+		<span class="smalltext">{$lastpostdate}<br />
+		<a href="{$thread[\'lastpostlink\']}">{$lang->lastpost}</a>: {$lastposterlink}</span>
+	</td>
+	<td class="{$bgcolor}" align="center"><input type="checkbox" class="checkbox" name="check[{$thread[\'tid\']}]" value="{$thread[\'tid\']}" /></td>
 </tr>'),
 		'sid'		=> '-1',
 		'version'	=> '',
@@ -220,18 +220,18 @@ function favorites_activate()
 	$insert_array = array(
 		'title'		=> 'usercp_favorites_remove',
 		'template'	=> $db->escape_string('<tr>
-<td class="tfoot" colspan="7">
-<div class="float_right"><strong>{$lang->with_selected}</strong>
-<select name="do">
-<option value="delete">{$lang->delete_favorites}</option>
-<option value="upgrade_subscription">{$lang->upgrade_subscription}</option>
-</select>
-{$gobutton}
-</div>
-<div>
-<strong><a href="usercp.php?action=removefavorites&amp;my_post_key={$mybb->post_code}">{$lang->remove_all_favorites}</a></strong>
-</div>
-</td>
+	<td class="tfoot" colspan="7">
+		<div class="float_right"><strong>{$lang->with_selected}</strong>
+			<select name="do">
+				<option value="delete">{$lang->delete_favorites}</option>
+				<option value="upgrade_subscription">{$lang->upgrade_subscription}</option>
+			</select>
+			{$gobutton}
+		</div>
+		<div>
+			<strong><a href="usercp.php?action=removefavorites&amp;my_post_key={$mybb->post_code}">{$lang->remove_all_favorites}</a></strong>
+		</div>
+	</td>
 </tr>'),
 		'sid'		=> '-1',
 		'version'	=> '',
