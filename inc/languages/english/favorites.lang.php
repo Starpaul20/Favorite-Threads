@@ -38,5 +38,3 @@ $l['hot_thread'] = "Hot Thread (No New)";
 $l['no_new_thread'] = "No New Posts";
 $l['posts_by_you'] = "Contains Posts by You";
 $l['locked_thread'] = "Locked Thread";
-
-?>

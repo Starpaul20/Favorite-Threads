@@ -784,5 +784,3 @@ function favorites_merge()
 	);	
 	$db->update_query("favorites", $uid, "uid='{$source_user['uid']}'");
 }
-
-?>
