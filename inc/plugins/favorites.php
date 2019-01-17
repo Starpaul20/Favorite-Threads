@@ -578,8 +578,8 @@ function favorites_run()
 
 				if($thread['closed'] == 1)
 				{
-					$folder .= "lock";
-					$folder_label .= $lang->icon_lock;
+					$folder .= "close";
+					$folder_label .= $lang->icon_close;
 				}
 
 				$folder .= "folder";
