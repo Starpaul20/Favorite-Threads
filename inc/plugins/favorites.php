@@ -665,7 +665,7 @@ function favorites_thread()
 		$tid = $mybb->get_input('tid', MyBB::INPUT_INT);
 		$thread = get_thread($tid);
 
-		if(!$thread['tid'])
+		if(!$thread['tid'] || $thread['visible'] == -1)
 		{
 			error($lang->error_invalidthread);
 		}
@@ -713,7 +713,7 @@ function favorites_thread()
 		$tid = $mybb->get_input('tid', MyBB::INPUT_INT);
 		$thread = get_thread($tid);
 
-		if(!$thread['tid'])
+		if(!$thread['tid'] || $thread['visible'] == -1)
 		{
 			error($lang->error_invalidthread);
 		}
