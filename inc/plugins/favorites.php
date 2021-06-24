@@ -594,6 +594,7 @@ function favorites_run()
 
 				// Build last post info
 				$lastpostdate = my_date('relative', $thread['lastpost']);
+				$lastposteruid = $thread['lastposteruid'];
 				if(!$lastposteruid && !$thread['lastposter'])
 				{
 					$lastposter = htmlspecialchars_uni($lang->guest);
@@ -602,7 +603,6 @@ function favorites_run()
 				{
 					$lastposter = htmlspecialchars_uni($thread['lastposter']);
 				}
-				$lastposteruid = $thread['lastposteruid'];
 
 				// Don't link to guest's profiles (they have no profile).
 				if($lastposteruid == 0)
@@ -647,8 +647,6 @@ function favorites_thread()
 	global $db, $mybb, $templates, $theme, $lang, $favorites, $add_remove_favorite_text, $add_remove_favorite, $uid, $tid, $addremovefavorite;
 	$lang->load("favorites");
 
-	$server_http_referer = htmlentities($_SERVER['HTTP_REFERER']);
-
 	if($mybb->user['uid'])
 	{
 		// Favorite status
@@ -686,7 +684,7 @@ function favorites_thread()
 		}
 
 		$forumpermissions = forum_permissions($thread['fid']);
-		if($forumpermissions['canview'] == 0 || $forumpermissions['canviewthreads'] == 0 || ($forumpermissions['canonlyviewownthreads'] != 0 && $thread['uid'] != $mybb->user['uid']))
+		if($forumpermissions['canview'] == 0 || $forumpermissions['canviewthreads'] == 0 || (isset($forumpermissions['canonlyviewownthreads']) && $forumpermissions['canonlyviewownthreads'] != 0 && $thread['uid'] != $mybb->user['uid']))
 		{
 			error_no_permission();
 		}
@@ -696,7 +694,7 @@ function favorites_thread()
 		}
 		$query = $db->simple_select("favorites", "*", "tid='{$tid}' AND uid='".(int)$uid."'", array('limit' => 1));
 		$favorite = $db->fetch_array($query);
-		if(!$favorite['tid'])
+		if(!isset($favorite['tid']))
 		{
 			$insert_array = array(
 				'uid' => (int)$uid,
@@ -704,14 +702,10 @@ function favorites_thread()
 			);
 			$db->insert_query("favorites", $insert_array);
 		}
-		if($server_http_referer)
-		{
-			$url = $server_http_referer;
-		}
-		else
-		{
-			$url = get_thread_link($thread['tid']);
-		}
+
+		$url = '';
+		$url = get_thread_link($thread['tid']);
+
 		redirect($url, $lang->redirect_favoriteadded);
 	}
 
@@ -738,14 +732,8 @@ function favorites_thread()
 			$uid = $mybb->user['uid'];
 		}
 		$db->delete_query("favorites", "tid='{$tid}' AND uid='{$uid}'");
-		if($server_http_referer)
-		{
-			$url = $server_http_referer;
-		}
-		else
-		{
-			$url = "usercp.php?action=favorites";
-		}
+
+		$url = "usercp.php?action=favorites";
 		redirect($url, $lang->redirect_favoriteremoved);
 	}
 }
