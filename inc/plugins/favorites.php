@@ -11,24 +11,27 @@ if(!defined("IN_MYBB"))
 }
 
 // Neat trick for caching our custom template(s)
-if(THIS_SCRIPT == 'usercp.php')
+if(defined('THIS_SCRIPT'))
 {
-	global $templatelist;
-	if(isset($templatelist))
+	if(THIS_SCRIPT == 'usercp.php')
 	{
-		$templatelist .= ',';
+		global $templatelist;
+		if(isset($templatelist))
+		{
+			$templatelist .= ',';
+		}
+		$templatelist .= 'usercp_favorites,usercp_favorites_none,usercp_favorites_thread,usercp_favorites_remove';
 	}
-	$templatelist .= 'usercp_favorites,usercp_favorites_none,usercp_favorites_thread,usercp_favorites_remove';
-}
 
-if(THIS_SCRIPT == 'showthread.php')
-{
-	global $templatelist;
-	if(isset($templatelist))
+	if(THIS_SCRIPT == 'showthread.php')
 	{
-		$templatelist .= ',';
+		global $templatelist;
+		if(isset($templatelist))
+		{
+			$templatelist .= ',';
+		}
+		$templatelist .= 'showthread_favorite';
 	}
-	$templatelist .= 'showthread_favorite';
 }
 
 // Tell MyBB when to run the hooks
