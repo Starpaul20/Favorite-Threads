@@ -251,7 +251,7 @@ function favorites_activate()
 	);
 	$db->insert_query("templates", $insert_array);
 
-	include MYBB_ROOT."/inc/adminfunctions_templates.php";
+	require_once MYBB_ROOT."/inc/adminfunctions_templates.php";
 	find_replace_templatesets("showthread", "#".preg_quote('{$addpoll}')."#i", '{$addremovefavorite}{$addpoll}');
 	find_replace_templatesets("usercp_nav_misc", "#".preg_quote('{$draftcount}</a></td></tr>')."#i", '{$draftcount}</a></td></tr><tr><td class="trow1 smalltext"><a href="usercp.php?action=favorites" class="usercp_nav_item" style="background:url(\'images/favorites.png\') no-repeat left center;">{$lang->ucp_nav_favorite_threads}</a></td></tr>');
 }
@@ -262,7 +262,7 @@ function favorites_deactivate()
 	global $db;
 	$db->delete_query("templates", "title IN('usercp_favorites','usercp_favorites_none','usercp_favorites_thread','usercp_favorites_remove','showthread_favorite')");
 
-	include MYBB_ROOT."/inc/adminfunctions_templates.php";
+	require_once MYBB_ROOT."/inc/adminfunctions_templates.php";
 	find_replace_templatesets("showthread", "#".preg_quote('{$addremovefavorite}')."#i", '', 0);
 	find_replace_templatesets("usercp_nav_misc", "#".preg_quote('<tr><td class="trow1 smalltext"><a href="usercp.php?action=favorites" class="usercp_nav_item" style="background:url(\'images/favorites.png\') no-repeat left center;">{$lang->ucp_nav_favorite_threads}</a></td></tr>')."#i", '', 0);
 }
