@@ -1,3 +1,14 @@
+1.3 (June 24th, 2021)
+- Removed PHP closing tags
+- Use THIS_SCRIPT for template caching
+- Adding License file
+- Error out if soft deleted threads are being saved
+- Use $lang->guest for guest username
+- Changed lock to close
+- Added check to see if THIS_SCRIPT is defined
+- Fixed PHP 8.0 errors
+- Use require_once for template updates
+
 1.2 (December 22nd, 2016)
 - Optimized PNG images
 - Sanitized usernames
