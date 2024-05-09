@@ -409,7 +409,7 @@ function favorites_run()
 				$del_favorites[] = $favorite['fav'];
 			}
 
-			else if($favorite['tid'])
+			elseif($favorite['tid'])
 			{
 				$favorites[$favorite['tid']] = $favorite;
 			}
@@ -483,6 +483,7 @@ function favorites_run()
 
 				$folder = '';
 				$prefix = '';
+				$thread['threadprefix'] = '';
 
 				// If this thread has a prefix, insert a space between prefix and subject
 				if($thread['prefix'] != 0 && isset($threadprefixes[$thread['prefix']]))
@@ -529,12 +530,14 @@ function favorites_run()
 
 				if($mybb->settings['threadreadcut'] > 0)
 				{
-					$forum_read = $readforums[$thread['fid']];
-
 					$read_cutoff = TIME_NOW-$mybb->settings['threadreadcut']*60*60*24;
-					if($forum_read == 0 || $forum_read < $read_cutoff)
+					if(empty($readforums[$thread['fid']]) || $readforums[$thread['fid']] < $read_cutoff)
 					{
 						$forum_read = $read_cutoff;
+					}
+					else
+					{
+						$forum_read = $readforums[$thread['fid']];
 					}
 				}
 
@@ -546,7 +549,7 @@ function favorites_run()
 
 				if($thread['lastpost'] > $cutoff)
 				{
-					if($thread['lastread'])
+					if(!empty($thread['lastread']))
 					{
 						$lastread = $thread['lastread'];
 					}
