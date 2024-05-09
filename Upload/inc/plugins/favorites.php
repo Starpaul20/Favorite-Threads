@@ -331,18 +331,29 @@ function favorites_run()
 		add_breadcrumb($lang->nav_favorites, "usercp.php?action=favorites");
 
 		// Thread visiblity
-		$visible = "AND t.visible != 0";
-		if(is_moderator() == true)
+		$where = array(
+			"f.uid={$mybb->user['uid']}",
+			get_visible_where('t')
+		);
+
+		if($unviewable_forums = get_unviewable_forums(true))
 		{
-			$visible = '';
+			$where[] = "t.fid NOT IN ({$unviewable_forums})";
 		}
+
+		if($inactive_forums = get_inactive_forums())
+		{
+			$where[] = "t.fid NOT IN ({$inactive_forums})";
+		}
+
+		$where = implode(' AND ', $where);
 
 		// Do Multi Pages
 		$query = $db->query("
 			SELECT COUNT(f.tid) as threads
 			FROM ".TABLE_PREFIX."favorites f
 			LEFT JOIN ".TABLE_PREFIX."threads t ON (t.tid = f.tid)
-			WHERE f.uid = '".$mybb->user['uid']."' AND t.visible >= 0 {$visible}
+			WHERE {$where}
 		");
 		$threadcount = $db->fetch_field($query, "threads");
 
@@ -384,7 +395,7 @@ function favorites_run()
 			SELECT f.fid AS fav, t.*
 			FROM ".TABLE_PREFIX."favorites f
 			LEFT JOIN ".TABLE_PREFIX."threads t ON (f.tid=t.tid)
-			WHERE f.uid='".$mybb->user['uid']."' AND t.visible >= 0 {$visible}
+			WHERE {$where}
 			ORDER BY t.lastpost DESC
 			LIMIT {$start}, {$perpage}
 		");
@@ -392,7 +403,7 @@ function favorites_run()
 		{
 			$forumpermissions = $fpermissions[$favorite['fid']];
 			// Only keep if we're allowed to view them
-			if($forumpermissions['canview'] == 0 || $forumpermissions['canviewthreads'] == 0 || (isset($forumpermissions['canonlyviewownthreads']) && $forumpermissions['canonlyviewownthreads'] != 0 && $favorite['uid'] != $mybb->user['uid']))
+			if(isset($forumpermissions['canonlyviewownthreads']) && $forumpermissions['canonlyviewownthreads'] != 0 && $favorite['uid'] != $mybb->user['uid'])
 			{
 				// Hmm, you don't have permission to view this thread - remove!
 				$del_favorites[] = $favorite['fav'];
